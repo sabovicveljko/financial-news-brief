@@ -1,7 +1,7 @@
 from urllib.error import URLError
 import ssl
 import truststore
-from datetime import timezone
+from datetime import timezone, datetime, timedelta
 from email.utils import parsedate_to_datetime
 from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
@@ -82,4 +82,14 @@ def deduplicate_stories(stories: list[Story])->list[Story]:
         unique_stories.append(story)
     return unique_stories
 
+def filter_recent_stories(
+stories: list[Story],
+hours: int=24,
+)-> list[Story]:
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
 
+    return [
+        story 
+        for story in stories
+        if story.published_at >= cutoff
+    ]

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date, datetime
+from decimal import Decimal
 
 @dataclass(frozen=True)
 class Story:
@@ -15,3 +16,11 @@ class Feed:
     name: str
     category: str
     url: str
+
+@dataclass(frozen=True)
+class ExchangeRate:
+    rate_date: date
+    base_currency: str
+    quote_currency: str
+    value: Decimal
+    source_url: str
