@@ -7,7 +7,7 @@ name = "automated-financial-news-brief"
 version = "0.1.0"
 description = "A daily financial and macroeconomic news brief sent to Telegram"
 requires-python = ">=3.12"
-dependencies = ["truststore==0.10.5"]
+dependencies = ["truststore==0.10.5", "python-dotenv==1.2.4","tzdata==2026.5"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
