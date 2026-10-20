@@ -49,7 +49,7 @@ def format_daily_brief(
         lines.extend(["", category])
 
         if not category_stories:
-            lines.append("No recent headlines found in the monitored feeds.")
+            lines.append("No new headlines since the last brief.")
             continue
 
         for story in category_stories:
