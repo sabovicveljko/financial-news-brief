@@ -66,3 +66,19 @@ Run the tests:
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
+
+## Daily automation with GitHub Actions
+
+The workflow in `.github/workflows/daily-brief.yml` runs the brief every day at 08:15 Europe/Budapest time. You can also start it manually from the repository’s **Actions** tab.
+
+To enable it in your own repository:
+
+1. Add these repository secrets under **Settings → Secrets and variables → Actions**:
+   - `TELEGRAM_BOT_TOKEN`
+   - `TELEGRAM_CHAT_ID`
+2. Push the workflow file to the repository’s default branch.
+3. Open **Actions → Daily Financial News Brief → Run workflow** to test it.
+
+The workflow runs the project’s tests before sending the Telegram message. After sending, it commits the updated SQLite sent-story history so later runs can avoid repeating stories. This requires the workflow’s `GITHUB_TOKEN` to have permission to write repository contents.
+
+The schedule uses GitHub-hosted runners. GitHub may delay scheduled runs during busy periods, so 08:15 is the intended start time, not a guaranteed delivery time. The database file must persist between runs; this workflow stores it in the repository.
