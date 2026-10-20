@@ -43,10 +43,10 @@ The project uses public RSS feeds and free tools. No paid news or AI APIs are re
 
 ## Local setup (Windows PowerShell)
 
-Replace `<repository-url>` with your GitHub repository’s clone URL before running these commands:
+Replace `https://github.com/sabovicveljko/financial-news-brief.git` with your GitHub repository’s clone URL before running these commands:
 
 ```powershell
-git clone <repository-url>
+git clone https://github.com/sabovicveljko/financial-news-brief.git
 cd financial-news-brief
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e .
