@@ -16,7 +16,7 @@ def classify_sentiment(text: str)->tuple[str, float]:
     prediction = _classifier(
         text,
         truncation = True,
-        max_lenght = 512,
+        max_length = 512,
     )[0]
 
     return prediction["label"], prediction["score"]
