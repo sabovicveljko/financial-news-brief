@@ -54,6 +54,11 @@ def format_daily_brief(
 
         for story in category_stories:
             lines.append(f"• {story.title}")
+            if story.sentiment and story.sentiment_score is not None:
+                lines.append(
+                    f"  Model tone: {story.sentiment.title()} "
+                    f"({story.sentiment_score:.0%} score)"
+                )
             lines.append(
                 f"  {story.source} | "
                 f"{story.published_at.astimezone(LOCAL_TIMEZONE):%d %b %Y %H:%M %Z}"

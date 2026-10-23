@@ -8,6 +8,8 @@ from .reader import (
 )
 from .telegram import send_message
 from .database import get_sent_story_urls, initialize_database, mark_story_sent
+from .sentiment import classify_sentiment
+from dataclasses import replace
 
 
 def run_daily_brief()->None:
@@ -24,6 +26,19 @@ def run_daily_brief()->None:
     ]
     
     selected_stories = select_balanced_stories(unsent_stories)
+
+    classified_stories = []
+    for story in selected_stories:
+        sentiment, score = classify_sentiment(story.title)
+        classified_stories.append(
+            replace(
+                story,
+                sentiment=sentiment,
+                sentiment_score=score,
+            )
+        )
+    selected_stories = classified_stories
+
     rate = fetch_eur_usd_rate()
     message = format_daily_brief(selected_stories, rate)
     send_message(message)

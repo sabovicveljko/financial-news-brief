@@ -16,6 +16,14 @@ The project uses public RSS feeds and free tools. No paid news or AI APIs are re
 - Sends the brief through Telegram.
 - Tracks sent story links in a local SQLite database.
 
+## AI sentiment analysis
+
+The project uses [ProsusAI/FinBERT](https://huggingface.co/ProsusAI/finbert) through PyTorch and Transformers to classify each selected headline as positive, negative, or neutral. The brief shows the model's selected label and score.
+
+The model analyzes headline text; it does not summarize full articles, predict market direction, or provide investment advice. Its score is a model output, not a guarantee that the label is correct.
+
+FinBERT's model weights are licensed under CC BY-NC-SA 4.0, which restricts commercial use. Review the [model license and usage terms](https://huggingface.co/ProsusAI/finbert) before using the model. The weights are downloaded when the model first runs rather than stored in this repository.
+
 ## Sources
 
 | Source | Coverage | Feed |
@@ -50,6 +58,7 @@ git clone https://github.com/sabovicveljko/financial-news-brief.git
 cd financial-news-brief
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -e .
+.venv\Scripts\python.exe -m pip install -r requirements-ai.txt
 Copy-Item .env.example .env
 ```
 

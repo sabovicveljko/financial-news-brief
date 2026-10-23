@@ -10,6 +10,8 @@ class Story:
     category: str 
     published_at: datetime
     summary: str = ""
+    sentiment: str | None = None
+    sentiment_score: float | None = None
 
 @dataclass(frozen=True)
 class Feed:

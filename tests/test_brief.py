@@ -1,11 +1,18 @@
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
+from decimal import Decimal
 import unittest
 
-from newsbrief.brief import select_balanced_stories
-from newsbrief.models import Story
+from newsbrief.brief import format_daily_brief, select_balanced_stories
+from newsbrief.models import ExchangeRate, Story
 
 
-def make_story(title: str, category: str, hour: int) -> Story:
+def make_story(
+    title: str,
+    category: str,
+    hour: int,
+    sentiment: str | None = None,
+    sentiment_score: float | None = None,
+) -> Story:
     return Story(
         title=title,
         url=f"https://example.com/{title.lower().replace(' ', '-')}",
@@ -13,6 +20,8 @@ def make_story(title: str, category: str, hour: int) -> Story:
         category=category,
         published_at=datetime(2026, 10, 20, hour, tzinfo=timezone.utc),
         summary="Test summary",
+        sentiment=sentiment,
+        sentiment_score=sentiment_score,
     )
 
 
@@ -32,6 +41,27 @@ class SelectBalancedStoriesTests(unittest.TestCase):
             {story.title for story in selected},
             {"Newest macro", "Newest market"},
         )
+
+class FormatDailyBriefTests(unittest.TestCase):
+    def test_includes_sentiment_and_score(self) -> None:
+        story = make_story(
+            "Rates fall",
+            "Markets & business",
+            11,
+            sentiment="positive",
+            sentiment_score=0.898,
+        )
+        rate = ExchangeRate(
+            rate_date=date(2026, 10, 20),
+            base_currency="EUR",
+            quote_currency="USD",
+            value=Decimal("1.12"),
+            source_url="https://example.com/rate",
+        )
+
+        message = format_daily_brief([story], rate)
+
+        self.assertIn("Model tone: Positive (90% score)", message)
 
 
 if __name__ == "__main__":
